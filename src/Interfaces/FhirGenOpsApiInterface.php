@@ -11,4 +11,12 @@ interface FhirGenOpsApiInterface {
    * @return void
    */
   public function __contruct(string $endpointBaseUrl): void;
+
+  /**
+   * Sets the endpoint base URL.
+   *
+   * @param string $endpoint
+   * @return void
+   */
+  public function setEndpoint(string $endpoint): static;
 }
