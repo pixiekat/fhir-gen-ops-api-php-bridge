@@ -24,7 +24,7 @@ class FhirGenOpsApi implements FhirGenOpsApiInterface {
   /**
    * {@inheritdoc}
    */
-  public function __contruct(string $endpointBaseUrl): void {
+  public function __construct(string $endpointBaseUrl) {
     $this->endpointBaseUrl = $endpointBaseUrl;
     $this->client = new Client();
   }
