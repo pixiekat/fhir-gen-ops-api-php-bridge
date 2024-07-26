@@ -12,6 +12,15 @@ interface FhirGenOpsApiInterface {
    */
   public function __contruct(string $endpointBaseUrl): void;
 
+/**
+   * Used to fetch GET data from the endpoint.
+   *
+   * @param string $endpoint
+   * @param array $query
+   * @return array|null
+   */
+  public function get(string $endpoint, array $query = []): array;
+
   /**
    * Sets the endpoint base URL.
    *

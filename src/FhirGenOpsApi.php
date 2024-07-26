@@ -30,6 +30,27 @@ class FhirGenOpsApi implements FhirGenOpsApiInterface {
   }
 
   /**
+   * Used to fetch GET data from the endpoint.
+   *
+   * @param string $endpoint
+   * @param array $query
+   * @return array|null
+   */
+  public function get(string $endpoint, array $query = []): array {
+    try {
+      $response = $this->client->request('GET', $this->endpointBaseUrl . $endpoint, [
+        'query' => Query::build($query),
+      ]);
+      if ($response->getStatusCode() !== 200) {
+        throw new Exception\GuzzleException('Failed to fetch data from the endpoint.');
+      }
+      return json_decode($response->getBody()->getContents(), TRUE);
+    } catch (Exception\GuzzleException $e) {
+      throw new Exception\GuzzleException($e->getMessage());
+    }
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function setEndpoint(string $endpoint): static {
