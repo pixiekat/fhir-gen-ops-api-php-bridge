@@ -1,0 +1,26 @@
+{
+  "name": "pixiekat/fhir-gen-ops-api-php-bridge",
+  "type": "library",
+  "autoload": {
+    "psr-4": {
+      "Pixiekat\\FhirGenOpsApi\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Pixiekat\\FhirGenOpsApi\\Tests\\": "tests/"
+    }
+  },
+  "authors": [{
+      "name": "Katie Elizabeth",
+      "email": "katie@pixiekitten.net"
+    }
+  ],
+  "config": {
+    "sort-packages": true
+  },
+  "require": {
+    "php": "^8.1 || ^8.2 ||^8.3"
+  },
+  "require-dev": {}
+}
