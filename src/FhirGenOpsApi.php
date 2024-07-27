@@ -47,7 +47,23 @@ class FhirGenOpsApi implements FhirGenOpsApiInterface {
       return json_decode($response->getBody()->getContents(), TRUE);
     } catch (Exception\GuzzleException $e) {
       throw new Exception\GuzzleException($e->getMessage());
+
+  /**
+   * Gets and merges the query params for the api.
+   *
+   * @param array $params
+   * @param array $query
+   * @return array
+   */
+  private function getQueryParams(array $params = [], array &$query = []): array {
+    if (!empty($params)) {
+      foreach ($params as $param => $value) {
+        if (in_array($param, self::VALID_QUERY_PARAMETERS) && !empty($value)) {
+          $query[$param] = $value;
+        }
+      }
     }
+    return $query;
   }
 
   /**

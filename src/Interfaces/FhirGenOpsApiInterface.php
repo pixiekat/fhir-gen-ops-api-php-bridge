@@ -5,6 +5,25 @@ namespace Pixiekat\FhirGenOpsApi\Interfaces;
 interface FhirGenOpsApiInterface {
 
   /**
+   * Defines the valid query paramers for genomic operations.
+   */
+  const VALID_QUERY_PARAMETERS = [
+    'subject',
+    'ranges',
+    'testIdentifiers',
+    'testDateRange',
+    'specimenIdentifiers',
+    'genomicSourceClass',
+    'includeVariants',
+    'includePhasing',
+    'variants',
+    'haplotypes',
+    'treatments',
+    'conditions',
+    'gene',
+  ];
+
+  /**
    * Defines the constructor class.
    * 
    * @param string $endpointBaseUrl THe base URL of the endpoint.
