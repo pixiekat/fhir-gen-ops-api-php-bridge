@@ -31,6 +31,16 @@ interface FhirGenOpsApiInterface {
    */
   public function __construct(?string $endpointBaseUrl =  '');
 
+  /**
+   * Returns subject variants for a given subject and ranges.
+   *
+   * @param string $subject
+   * @param string $ranges
+   * @param array|null $params
+   * @return array
+   */
+  public function findSubjectVariants(string $subject, string $ranges, ?array $params= []): array;
+
 /**
    * Used to fetch GET data from the endpoint.
    *

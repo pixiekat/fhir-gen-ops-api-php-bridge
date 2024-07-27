@@ -30,6 +30,18 @@ class FhirGenOpsApi implements FhirGenOpsApiInterface {
   }
 
   /**
+   * {@inheritdoc}
+   */
+  public function findSubjectVariants(string $subject, string $ranges, ?array $params= []): array {
+    $query = [
+      'subject' => $subject,
+      'ranges' => $ranges,
+    ];
+    $query = $this->getQueryParams($params, $query);
+    return $this->get('subject-operations/genotype-operations/$find-subject-variants', $query);
+  }
+
+  /**
    * Used to fetch GET data from the endpoint.
    *
    * @param string $endpoint
