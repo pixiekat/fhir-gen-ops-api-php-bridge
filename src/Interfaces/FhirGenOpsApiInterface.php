@@ -31,6 +31,15 @@ interface FhirGenOpsApiInterface {
    */
   public function __construct(?string $endpointBaseUrl =  '');
 
+/**
+   * Gets molecular consequences for a given subject.
+   *
+   * @param string $subject
+   * @param array|null $params
+   * @return array
+   */
+  public function findSubjectMolecularConsequences(string $subject, ?array $params = []): array;
+
   /**
    * Returns subject variants for a given subject and ranges.
    *

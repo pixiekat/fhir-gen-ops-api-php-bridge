@@ -30,6 +30,19 @@ class FhirGenOpsApi implements FhirGenOpsApiInterface {
   }
 
   /**
+   * Gets molecular consequences for a given subject.
+   *
+   * @param string $subject
+   * @param array|null $params
+   * @return array
+   */
+  public function findSubjectMolecularConsequences(string $subject, ?array $params = []): array {
+    $query = ['subject' => $subject];
+    $query = $this->getQueryParams($params, $query);
+    return $this->get('subject-operations/phenotype-operations/$find-subject-molecular-consequences', $query);
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function findSubjectVariants(string $subject, string $ranges, ?array $params= []): array {
