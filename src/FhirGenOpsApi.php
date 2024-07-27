@@ -24,7 +24,7 @@ class FhirGenOpsApi implements FhirGenOpsApiInterface {
   /**
    * {@inheritdoc}
    */
-  public function __construct(string $endpointBaseUrl) {
+  public function __construct(?string $endpointBaseUrl = '') {
     $this->endpointBaseUrl = $endpointBaseUrl;
     $this->client = new Client();
   }
@@ -71,5 +71,7 @@ class FhirGenOpsApi implements FhirGenOpsApiInterface {
    */
   public function setEndpoint(string $endpoint): static {
     $this->endpointBaseUrl = $endpoint;
+
+    return $this;
   }
 }

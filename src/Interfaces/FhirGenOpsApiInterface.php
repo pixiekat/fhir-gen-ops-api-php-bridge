@@ -29,7 +29,7 @@ interface FhirGenOpsApiInterface {
    * @param string $endpointBaseUrl THe base URL of the endpoint.
    * @return void
    */
-  public function __construct(string $endpointBaseUrl);
+  public function __construct(?string $endpointBaseUrl =  '');
 
 /**
    * Used to fetch GET data from the endpoint.
