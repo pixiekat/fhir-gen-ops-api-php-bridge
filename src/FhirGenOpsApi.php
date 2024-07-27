@@ -62,16 +62,22 @@ class FhirGenOpsApi implements FhirGenOpsApiInterface {
    * @return array|null
    */
   public function get(string $endpoint, array $query = []): array {
+    if (empty($this->endpointBaseUrl)) {
+      throw new Exception\InvalidArgumentException('The endpoint base URL is not set. You must first call the setEndpoint() method or set it in __construct().');
+    }
+
     try {
       $response = $this->client->request('GET', $this->endpointBaseUrl . $endpoint, [
         'query' => Query::build($query),
       ]);
       if ($response->getStatusCode() !== 200) {
-        throw new Exception\GuzzleException('Failed to fetch data from the endpoint.');
+        throw new Exception('Failed to fetch data from the endpoint.');
       }
       return json_decode($response->getBody()->getContents(), TRUE);
-    } catch (Exception\GuzzleException $e) {
-      throw new Exception\GuzzleException($e->getMessage());
+    } catch (Exception $e) {
+      throw new Exception($e->getMessage());
+    }
+  }
 
   /**
    * Gets and merges the query params for the api.
