@@ -5,6 +5,11 @@ namespace Pixiekat\FhirGenOpsApi\Interfaces;
 interface FhirGenOpsApiInterface {
 
   /**
+   * The default endpoint.
+   */
+  const DEFAULT_ENDPOINT = 'https://fhir-gen-ops.herokuapp.com/';
+
+  /**
    * Defines the valid query paramers for genomic operations.
    */
   const VALID_QUERY_PARAMETERS = [
@@ -25,11 +30,11 @@ interface FhirGenOpsApiInterface {
 
   /**
    * Defines the constructor class.
-   * 
+   *
    * @param string $endpointBaseUrl THe base URL of the endpoint.
    * @return void
    */
-  public function __construct(?string $endpointBaseUrl =  '');
+  public function __construct();
 
 /**
    * Gets molecular consequences for a given subject.
