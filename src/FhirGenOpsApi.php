@@ -6,28 +6,15 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception;
 use GuzzleHttp\Psr7\Query;
 use Pixiekat\FhirGenOpsApi\Interfaces\FhirGenOpsApiInterface;
+use Pixiekat\FhirGenOpsApi\Traits;
 
 class FhirGenOpsApi implements FhirGenOpsApiInterface {
-
-  /**
-   * The \GuzzleHttp\Client definition.
-   * 
-   * @var \GuzzleHttp\Client $client
-   */
-  private Client $client;
-
-  /**
-   * Defines the endpoint base URL.
-   */
-  private string $endpointBaseUrl;
+  use Traits\ApiBaseTrait;
 
   /**
    * {@inheritdoc}
    */
-  public function __construct(?string $endpointBaseUrl = '') {
-    $this->endpointBaseUrl = $endpointBaseUrl;
-    $this->client = new Client();
-  }
+  public function __construct() {}
 
   /**
    * Gets molecular consequences for a given subject.
@@ -46,6 +33,7 @@ class FhirGenOpsApi implements FhirGenOpsApiInterface {
    * {@inheritdoc}
    */
   public function findSubjectVariants(string $subject, string $ranges, ?array $params= []): array {
+    $subject = strtoupper($subject);
     $query = [
       'subject' => $subject,
       'ranges' => $ranges,
@@ -55,54 +43,36 @@ class FhirGenOpsApi implements FhirGenOpsApiInterface {
   }
 
   /**
-   * Used to fetch GET data from the endpoint.
-   *
-   * @param string $endpoint
-   * @param array $query
-   * @return array|null
+   * {@inheritdoc}
    */
-  public function get(string $endpoint, array $query = []): array {
-    if (empty($this->endpointBaseUrl)) {
-      throw new Exception\InvalidArgumentException('The endpoint base URL is not set. You must first call the setEndpoint() method or set it in __construct().');
+  public function getFeatureCoordinates(string $chromosome = null, string $gene = null, string $transcript = null, string $protein = null): array {
+    $query = [];
+    if (!empty($chromosome)) {
+      $query['chromosome'] = $chromosome;
     }
-
-    try {
-      $response = $this->client->request('GET', $this->endpointBaseUrl . $endpoint, [
-        'query' => Query::build($query),
-      ]);
-      if ($response->getStatusCode() !== 200) {
-        throw new Exception('Failed to fetch data from the endpoint.');
-      }
-      return json_decode($response->getBody()->getContents(), TRUE);
-    } catch (Exception $e) {
-      throw new Exception($e->getMessage());
+    if (!empty($gene)) {
+      $query['gene'] = $gene;
     }
-  }
-
-  /**
-   * Gets and merges the query params for the api.
-   *
-   * @param array $params
-   * @param array $query
-   * @return array
-   */
-  private function getQueryParams(array $params = [], array &$query = []): array {
-    if (!empty($params)) {
-      foreach ($params as $param => $value) {
-        if (in_array($param, self::VALID_QUERY_PARAMETERS) && !empty($value)) {
-          $query[$param] = $value;
-        }
-      }
+    if (!empty($transcript)) {
+      $query['transcript'] = $transcript;
     }
-    return $query;
+    if (!empty($protein)) {
+      $query['protein'] = $protein;
+    }
+    if (empty($query)) {
+      throw new \InvalidArgumentException('At least one of the following parameters must be provided: chromosome, gene, transcript, protein');
+    }
+    $params = [];
+    $query = $this->getQueryParams($params, $query);
+    return $this->get('utilities/get-feature-coordinates', $query);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function setEndpoint(string $endpoint): static {
-    $this->endpointBaseUrl = $endpoint;
-
-    return $this;
+  public function findTheGene(string $range, ?array $params = []): array {
+    $query = ['range' => $range];
+    $query = $this->getQueryParams($params, $query);
+    return $this->get('utilities/find-the-gene', $query);
   }
 }
